@@ -6,7 +6,7 @@
 /*   By: mqwa <mqwa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 22:24:42 by mqwa              #+#    #+#             */
-/*   Updated: 2025/11/03 14:04:08 by mqwa             ###   ########.fr       */
+/*   Updated: 2025/11/05 00:31:24 by mqwa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ Client::Client(int fd)
 	_fd = fd;
 	_isRegistered = 0;
 	_hasPass = 0;
-	_failedPassAttempts = 0;
 }
 
 //	Public Functions
@@ -49,11 +48,6 @@ int		Client::getFd() const
 	return (_fd);
 }
 
-int		Client::getFailsAttempts() const
-{
-	return (_failedPassAttempts);
-}
-
 //	Setters
 
 void	Client::setRegistered()
@@ -69,11 +63,6 @@ void	Client::setHasPass()
 void	Client::setNick(const std::string& nick)
 {
 	_nickName = nick;
-}
-
-void	Client::incrementeFailsAttempts()
-{
-	_failedPassAttempts += 1;
 }
 
 Client::~Client()

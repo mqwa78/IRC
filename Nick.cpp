@@ -6,7 +6,7 @@
 /*   By: mqwa <mqwa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 23:27:40 by mqwa              #+#    #+#             */
-/*   Updated: 2025/11/01 04:48:04 by mqwa             ###   ########.fr       */
+/*   Updated: 2025/11/03 23:08:00 by mqwa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,12 @@ void	Nick(Server& server, Client& client, const std::vector<std::string>& params
 {
 	if (!client.getHasPass())
 	{
-		server.sendToClient(client, "You must enter PASS before using NICK\n");
+		sendGenericError(server, client, "You must enter PASS before using NICK\r\n");
 		return;
 	}
 	if (params.empty() || params[0].empty())
 	{
-		sendErrorNoNick(server, client, "NICK");
+		sendErrorNoNick(server, client);
 		return;
 	}
 	if (!checkNickName(params[0]))

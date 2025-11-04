@@ -6,7 +6,7 @@
 /*   By: mqwa <mqwa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 21:03:44 by mqwa              #+#    #+#             */
-/*   Updated: 2025/11/01 02:42:38 by mqwa             ###   ########.fr       */
+/*   Updated: 2025/11/05 00:30:58 by mqwa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,11 @@ class Client
 				const std::string&	getNick() const;
 				const std::string&	getUser() const;
 				int					getFd() const;
-				int					getFailsAttempts() const;
 			
 				//Setters
 				void	setRegistered();
 				void	setHasPass();
 				void	setNick(const std::string& nick);
-				void	incrementeFailsAttempts();
 
 		private:
 				int					_fd;
@@ -46,7 +44,6 @@ class Client
 				std::string			_userName;
 				bool				_hasPass;
 				bool				_isRegistered;
-				int					_failedPassAttempts;
 				std::set<Channel*>	_channels;
 };
 

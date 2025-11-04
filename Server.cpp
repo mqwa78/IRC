@@ -6,11 +6,13 @@
 /*   By: mqwa <mqwa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 03:09:09 by mqwa              #+#    #+#             */
-/*   Updated: 2025/11/03 14:04:25 by mqwa             ###   ########.fr       */
+/*   Updated: 2025/11/04 02:06:39 by mqwa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "Server.hpp"
+
+//	Constructor
 
 Server::Server(int port, std::string password) : _handleCommand(*this)
 {
@@ -19,6 +21,8 @@ Server::Server(int port, std::string password) : _handleCommand(*this)
 	_epollFd = 0;
 	_socket = Server::_setupSocket(port);
 }
+
+//	Socket Gestion
 
 int		Server::_setupSocket(int port)
 {
@@ -67,6 +71,8 @@ bool	Server::_makeNoblockFd(int fd)
 		return (0);
 	return (1);
 }
+
+//	Gestion du Réseau
 
 void	Server::run()
 {
@@ -152,11 +158,13 @@ void	Server::run()
 				else if (command == "QUIT")
 					test = 0;
 				else
-					std::cout << "Commande inconnue: " << command << std::endl;
+					std::cout << "Commande inconnue error 421 ou 451 : " << command << std::endl;
 			}
 		}
 	}
 }
+
+//	Fonctions Membres
 
 bool	Server::_addClient(int clientfd)
 {
@@ -230,15 +238,16 @@ bool	Server::findNickname(const std::string& nick) const
 
 void	Server::_welcome(void)
 {
-	std::cout << "************************************************************************" << std::endl;
-	std::cout << "************************************************************************" << std::endl;
-	std::cout << "************************************************************************" << std::endl;
-	std::cout << "************************* B O N S O I R ********************************" << std::endl;
-	std::cout << "************************************************************************" << std::endl;
-	std::cout << "************************ It 's IRC BABY !*******************************" << std::endl;
-	std::cout << "************************************************************************" << std::endl;
-	std::cout << "************************************************************************" << std::endl;
-	std::cout << "************************************************************************" << std::endl << std::endl;
+	std::cout << " ________________________________________________________________________" << std::endl;
+	std::cout << "|************************************************************************|" << std::endl;
+	std::cout << "|************************************************************************|" << std::endl;
+	std::cout << "|************************************************************************|" << std::endl;
+	std::cout << "|************************* B O N S O I R ********************************|" << std::endl;
+	std::cout << "|************************************************************************|" << std::endl;
+	std::cout << "|************************ It 's IRC BABY !*******************************|" << std::endl;
+	std::cout << "|************************************************************************|" << std::endl;
+	std::cout << "|************************************************************************|" << std::endl;
+	std::cout << "|************************************************************************|" << std::endl << std::endl;
 }
 
 //	Getters and Setters
