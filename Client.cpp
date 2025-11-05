@@ -6,7 +6,7 @@
 /*   By: mqwa <mqwa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 22:24:42 by mqwa              #+#    #+#             */
-/*   Updated: 2025/11/05 00:31:24 by mqwa             ###   ########.fr       */
+/*   Updated: 2025/11/05 17:21:23 by mqwa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,26 @@ void	Client::setHasPass()
 void	Client::setNick(const std::string& nick)
 {
 	_nickName = nick;
+}
+
+void	Client::setUser(const std::string& nick)
+{
+	_userName = nick;
+}
+
+void	Client::setRealName(const std::string& name)
+{
+	_realName = name;
+}
+
+void	Client::setHostName(const std::string& name)
+{
+	_hostName = name;
+}
+
+void	Client::setServerName(const std::string& name)
+{
+	_serverName = name;
 }
 
 Client::~Client()

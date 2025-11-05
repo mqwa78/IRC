@@ -6,7 +6,7 @@
 /*   By: mqwa <mqwa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 20:09:48 by mqwa              #+#    #+#             */
-/*   Updated: 2025/11/05 00:32:04 by mqwa             ###   ########.fr       */
+/*   Updated: 2025/11/05 04:37:50 by mqwa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,16 @@ void sendMyInfo(Server& server, Client& client)
 
 //	ERRORS
 
+void	sendErrorCommand(Server& server, Client& client, const std::string& cmd)
+{
+	std::string nick = client.getNick();
+	if (nick.empty())
+		nick = "*";
+	std::stringstream	ss;
+	ss << ":" << SERVER_NAME << " 421 " << nick << " " << cmd << " :Unknown command\r\n";
+	server.sendToClient(client, ss.str());
+}
+
 void    sendErrorNoNick(Server& server, Client& client)
 {
 	std::string nick = client.getNick();
@@ -85,6 +95,16 @@ void    sendErrorNickUse(Server& server, Client& client, const std::string& targ
 		nick = "*";
 	std::stringstream	ss;
 	ss << ":" << SERVER_NAME << " 433 " << nick << " " << target << " :Nickname is already in use\r\n";
+	server.sendToClient(client, ss.str());
+}
+
+void	sendErrorNotRegister(Server& server, Client& client)
+{
+	std::string nick = client.getNick();
+	if (nick.empty())
+		nick = "*";
+	std::stringstream	ss;
+	ss << ":" << SERVER_NAME << " 451 " << nick << " :You have not registered\r\n";
 	server.sendToClient(client, ss.str());
 }
 

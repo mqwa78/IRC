@@ -6,32 +6,33 @@
 /*   By: mqwa <mqwa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 23:32:17 by mqwa              #+#    #+#             */
-/*   Updated: 2025/11/05 00:29:36 by mqwa             ###   ########.fr       */
+/*   Updated: 2025/11/05 02:35:50 by mqwa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+# include "CommandHandler.hpp"
 # include "commands.h"
 
-void	Pass(Server& server, Client& client, const std::vector<std::string>& params)
+void	CommandHandler::_Pass(Client& client, const std::vector<std::string>& params)
 {
 	if (client.getRegistered())
 	{
-		sendErrorRegistred(server, client);
+		sendErrorRegistred(_server, client);
 		return;
 	}
 	if (client.getHasPass())
 	{
-		sendGenericError(server, client, "Password already sent\r\n");
+		sendGenericError(_server, client, "Password already sent\r\n");
 		return;
 	}
 	if (params.size() != 1)
 	{
-		sendErrorMoreParams(server, client, "PASS");
+		sendErrorMoreParams(_server, client, "PASS");
 		return;
 	}
 	const std::string&	password = params[0];
-	if (password == server.getPass())
+	if (password == _server.getPass())
 		client.setHasPass();
 	else
-		sendErrorPass(server, client);
+		sendErrorPass(_server, client);
 }

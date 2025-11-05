@@ -6,10 +6,11 @@
 /*   By: mqwa <mqwa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 23:27:40 by mqwa              #+#    #+#             */
-/*   Updated: 2025/11/03 23:08:00 by mqwa             ###   ########.fr       */
+/*   Updated: 2025/11/05 02:34:08 by mqwa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+# include "CommandHandler.hpp"
 # include "commands.h"
 
 static bool	isSpecialChar(char c)
@@ -41,28 +42,28 @@ static bool	checkNickName(const std::string& nick)
 	return (1);
 }
 
-void	Nick(Server& server, Client& client, const std::vector<std::string>& params)
+void	CommandHandler::_Nick(Client& client, const std::vector<std::string>& params)
 {
 	if (!client.getHasPass())
 	{
-		sendGenericError(server, client, "You must enter PASS before using NICK\r\n");
+		sendGenericError(_server, client, "You must enter PASS before using NICK\r\n");
 		return;
 	}
 	if (params.empty() || params[0].empty())
 	{
-		sendErrorNoNick(server, client);
+		sendErrorNoNick(_server, client);
 		return;
 	}
 	if (!checkNickName(params[0]))
 	{
-		sendErrorUnvalidNick(server, client, params[0]);
+		sendErrorUnvalidNick(_server, client, params[0]);
 		return;
 	}
 	if (params[0] == client.getNick())
 		return;
-	if (server.findNickname(params[0]))
+	if (_server.findNickname(params[0]))
 	{
-		sendErrorNickUse(server, client, params[0]);
+		sendErrorNickUse(_server, client, params[0]);
 		return;
 	}
 
@@ -71,6 +72,6 @@ void	Nick(Server& server, Client& client, const std::vector<std::string>& params
 	if (!client.getRegistered() && !client.getUser().empty())
 	{
 		client.setRegistered();
-		sendAllRpl(server, client);
+		sendAllRpl(_server, client);
 	}
 }

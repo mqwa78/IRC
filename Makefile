@@ -1,6 +1,6 @@
 # Variables
 NAME        = ircserv
-SRCS        = main.cpp Server.cpp CommandHandler.cpp Client.cpp Pass.cpp Nick.cpp replies.cpp
+SRCS        = main.cpp Server.cpp CommandHandler.cpp Client.cpp Pass.cpp Nick.cpp replies.cpp User.cpp
 OBJS        = $(SRCS:.cpp=.o)
 CXX         = c++
 CXXFLAGS    = -Wall -Wextra -Werror -std=c++98 -I.

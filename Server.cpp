@@ -6,7 +6,7 @@
 /*   By: mqwa <mqwa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 03:09:09 by mqwa              #+#    #+#             */
-/*   Updated: 2025/11/04 02:06:39 by mqwa             ###   ########.fr       */
+/*   Updated: 2025/11/05 06:35:39 by mqwa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 
 Server::Server(int port, std::string password) : _handleCommand(*this)
 {
+	_loop = 1;
 	_port = port;
 	_password = password;
 	_epollFd = 0;
@@ -91,8 +92,7 @@ void	Server::run()
 	
 	_welcome();
 
-	int	test = 1;
-	while (test)
+	while (_loop)
 	{
 		int n = epoll_wait(_epollFd, events, MAX_EVENTS, -1);
 		if (n == -1)
@@ -120,45 +120,7 @@ void	Server::run()
 			else
 			{
 				// Reading clients
-				//std::cout << fd << " say hi ! " << std::endl;
-				//_handleClientRequest(fd);
-				char buffer[512];
-				memset(buffer, 0, sizeof(buffer));
-				ssize_t bytesRead = recv(fd, buffer, sizeof(buffer) - 1, 0);
-
-				if (bytesRead <= 0)
-				{
-					Client *client = getClient(fd);
-					_deleteClient(*client);
-					continue;
-				}
-				std::string input(buffer);
-				input.erase(input.find_last_not_of("\r\n") + 1); // nettoyage \r\n
-
-				std::cout << "Client " << fd << " sent: " << input << std::endl;
-
-				// === Découpage simple ===
-				std::istringstream iss(input);
-				std::string command;
-				iss >> command;
-
-				std::vector<std::string> params;
-				std::string param;
-				while (iss >> param)
-					params.push_back(param);
-
-				// Exemple : récupération de ton objet client
-
-				Client *client = getClient(fd);
-
-				if (command == "PASS")
-					Pass(*this, *client, params);
-				else if (command == "NICK")
-					Nick(*this, *client, params);
-				else if (command == "QUIT")
-					test = 0;
-				else
-					std::cout << "Commande inconnue error 421 ou 451 : " << command << std::endl;
+				_handleClientRequest(fd);
 			}
 		}
 	}
@@ -194,6 +156,11 @@ bool	Server::_addClient(int clientfd)
 
 	_clients[clientfd] = new Client(clientfd);
 	return (1);
+}
+
+void	Server::_handleClientRequest(int fd)
+{
+	_handleCommand.handleRequest(fd);
 }
 
 void	Server::sendToClient(Client& client, const std::string& message)
@@ -236,7 +203,7 @@ bool	Server::findNickname(const std::string& nick) const
 	return (0);
 }
 
-void	Server::_welcome(void)
+void	Server::_welcome(void) const
 {
 	std::cout << " ________________________________________________________________________" << std::endl;
 	std::cout << "|************************************************************************|" << std::endl;
@@ -277,6 +244,11 @@ Client*		Server::getClient(int fd)
 void		Server::setEpoll(int fd)
 {
 	_epollFd = fd;
+}
+
+void		Server::setLoop()
+{
+	_loop = 0;
 }
 
 //	Destructor
